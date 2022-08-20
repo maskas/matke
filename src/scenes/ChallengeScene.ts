@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
-import Task from '~/Challenge/task'
+import DigitKeyboard from '~/Object/DigitKeyboard';
+import Task from '~/Object/Task'
 
 export default class ChallengeScene extends Phaser.Scene
 {
@@ -35,6 +36,7 @@ export default class ChallengeScene extends Phaser.Scene
         // // text.setTextBounds(0, 100, 800, 100);
 
         let task = new Task(this);
-        this.add.container(0, 0, task)
+        let digitKeyboard = new DigitKeyboard(this);
+        this.add.container(0, 0, [task, digitKeyboard])
     }
 }

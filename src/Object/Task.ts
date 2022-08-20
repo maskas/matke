@@ -25,7 +25,8 @@ export default class Task extends Phaser.GameObjects.Container
             this.challengeText(),
             {
                 color: 'white',
-                fontSize: '60px'
+                fontSize: '60px',
+                fontFamily: 'Fantasy',
             }
         )
         
@@ -49,7 +50,7 @@ export default class Task extends Phaser.GameObjects.Container
         //     alert(`Key pressed ${name} \r\n Key code value: ${code}`);
         //   }, false);
 
-          document.addEventListener('keypress', this.onKeyPress.bind(this), false);
+          document.addEventListener('keyup', this.onKeyPress.bind(this), false);
 
     }
 

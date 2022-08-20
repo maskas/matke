@@ -25,7 +25,7 @@ export default class Task extends Phaser.GameObjects.Container
             this.challengeText(),
             {
                 color: 'white',
-                fontSize: '30px'
+                fontSize: '60px'
             }
         )
         

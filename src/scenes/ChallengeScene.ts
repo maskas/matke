@@ -14,12 +14,15 @@ export default class ChallengeScene extends Phaser.Scene
 
 	preload()
     {
-        this.load.image('clove', 'clove.png')
+        this.load.audio("ding", ["ding.wav"]);
+        this.load.audio("error", ["error.wav"]);
+        // this.load.image('clove', 'clove.png')
     }
 
     create()
     {
-        this.add.image(400, 300, 'clove')
+
+        // this.add.image(400, 300, 'clove')
 
 
         // var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" }

@@ -3,11 +3,14 @@ import Phaser from 'phaser'
 export default class Task extends Phaser.GameObjects.Container
 {
     private text: Phaser.GameObjects.Text
-    private digitA: integer
-    private digitB: integer
-    private answer: integer
+    private digitA = 0
+    private digitB = 0
+    private answer = 0
     private min: integer
     private max: integer
+
+    private ding;
+    private error;
 
 	constructor(scene: Phaser.Scene, x?: number, y?: number, children?: Phaser.GameObjects.GameObject[])
 	{
@@ -24,6 +27,9 @@ export default class Task extends Phaser.GameObjects.Container
 
 
         this.add(this.text)
+
+        this.ding = this.scene.sound.add("ding", { loop: false })
+        this.error = this.scene.sound.add("error", { loop: false, volume: 0.05 })
 
 
         // document.addEventListener('keypress', (event) => {
@@ -47,15 +53,16 @@ export default class Task extends Phaser.GameObjects.Container
     check(keyName: string) {
         let guess = parseInt(keyName);
         if (guess == this.answer) {
-            this.refresh();
+            this.ding.play()
+            this.refresh()
         } else {
+            this.error.play()
             console.log(guess)
             console.log(this.answer)
         }
     }
 
     refresh() {
-        console.log('refresh');
         this.digitA = this.randomDigit()
         this.digitB = this.randomDigit()
         this.answer = this.digitA + this.digitB;

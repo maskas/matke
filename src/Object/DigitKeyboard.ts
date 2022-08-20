@@ -63,7 +63,7 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
 
         for(let i=0; i<buttonCount; i++) {
             this.buttons[i].setX(this.scene.game.canvas.width/2 + spacing * (i - 4.5));
-            this.buttons[i].setY(this.scene.game.canvas.height - this.fontSize - 20);
+            this.buttons[i].setY(this.scene.game.canvas.height - this.fontSize - 100);
         }
     }
 }

@@ -21,11 +21,11 @@ export default class Task extends Phaser.GameObjects.Container
 
         this.text = scene.add.text(
             scene.game.canvas.width/2,
-            scene.game.canvas.height/2,
+            scene.game.canvas.height/2 - 120,
             this.challengeText(),
             {
                 color: 'white',
-                fontSize: '60px',
+                fontSize: '100px',
                 fontFamily: 'Fantasy',
             }
         )

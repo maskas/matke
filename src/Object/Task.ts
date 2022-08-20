@@ -22,8 +22,8 @@ export default class Task extends Phaser.GameObjects.Container
         this.max = 4;
 
         this.text = scene.add.text(
-            -10000,
-            -10000,
+            100,
+            100,
             this.challengeText(),
             {
                 color: 'white',
@@ -32,29 +32,16 @@ export default class Task extends Phaser.GameObjects.Container
             }
         )
         this.fixLayout();
-        
         this.text.setOrigin(0.5, 0.5)
-
-
         this.refresh()
-
-
         this.add(this.text)
 
         this.ding = this.scene.sound.add("ding", { loop: false, volume: 3 })
         this.error = this.scene.sound.add("error", { loop: false, volume: 0.2 })
 
-        window.addEventListener('resize', this.fixLayout.bind(this), false);
-
-        // document.addEventListener('keypress', (event) => {
-        //     var name = event.key;
-        //     var code = event.code;
-        //     // Alert the key name and key code on keydown
-        //     alert(`Key pressed ${name} \r\n Key code value: ${code}`);
-        //   }, false);
-
-          document.addEventListener('keyup', this.onKeyPress.bind(this), false);
-
+        // window.addEventListener('resize', this.fixLayout.bind(this), false);
+        this.scene.scale.on('resize', this.fixLayout.bind(this), this);
+        document.addEventListener('keyup', this.onKeyPress.bind(this), false);
     }
 
     fixLayout() {
@@ -86,9 +73,8 @@ export default class Task extends Phaser.GameObjects.Container
 
         let newGuessTime = Date.now();
         if (newGuessTime - this.lastGuessTime <= 500) {
+            // eliminate double clicks
             return;
-        } else {
-            console.log(newGuessTime - this.lastGuessTime);
         }
         this.lastGuessTime = newGuessTime;
 

@@ -10,8 +10,8 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
 		super(scene, x, y)
         for (let i=0; i<=9; i++) {
             let text = scene.add.text(
-                -200,
-                -200,
+                200,
+                200,
                 i.toString(),
                 {
                     color: '#9c9',
@@ -50,8 +50,8 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
         }
         this.recalculate();
 
-
-        window.addEventListener('resize', this.recalculate.bind(this), false);
+        // window.addEventListener('resize', this.recalculate.bind(this), false);
+        this.scene.scale.on('resize', this.recalculate.bind(this), this);
     }
 
 

@@ -14,10 +14,25 @@ const config: Phaser.Types.Core.GameConfig = {
 	scene: [Challenge]
 }
 
-let game = new Phaser.Game(config);
+let game;
 
 window.addEventListener('resize', function (event) {
-	game.scale.resize(window.innerWidth, window.innerHeight);
+	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
+	window.scrollTo(0, 0);
+	setTimeout(() => {
+		game.scale.resize(window.innerWidth, window.innerHeight);
+	}, 500)
 }, false);
+
+// window.addEventListener('load', function (event) {
+// 	window.scrollTo(0, 0);
+// 	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
+// 	setTimeout(() => {
+// 		game.scale.resize(window.innerWidth, window.innerHeight);
+// 	}, 500)
+// }, false);
+
+game = new Phaser.Game(config);
+
 
 export default game

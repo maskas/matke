@@ -17,7 +17,7 @@ export default class Task extends Phaser.GameObjects.Container
 		super(scene, x, y)
 
         this.min = 0;
-        this.max = 5;
+        this.max = 4;
 
         this.text = scene.add.text(
             scene.game.canvas.width/2,

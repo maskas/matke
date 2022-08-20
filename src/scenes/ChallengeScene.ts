@@ -4,7 +4,11 @@ export default class ChallengeScene extends Phaser.Scene
 {
 	constructor()
 	{
-		super('challenge')
+        let config = {
+            key: 'challenge',
+            active: true,
+        }
+		super(config)
 	}
 
 	preload()

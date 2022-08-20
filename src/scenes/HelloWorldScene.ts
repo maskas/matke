@@ -4,7 +4,11 @@ export default class HelloWorldScene extends Phaser.Scene
 {
 	constructor()
 	{
-		super('hello-world')
+        let config = {
+            key: 'hello-world',
+            // active: true,
+        }
+		super(config)
 	}
 
 	preload()

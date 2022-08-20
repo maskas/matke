@@ -19,8 +19,17 @@ export default class Task extends Phaser.GameObjects.Container
         this.min = 0;
         this.max = 5;
 
-        this.text = scene.add.text(100, 100, this.challengeText(), { color: 'white' })
-            .setOrigin(0.5, 0.5)
+        this.text = scene.add.text(
+            scene.game.canvas.width/2,
+            scene.game.canvas.height/2,
+            this.challengeText(),
+            {
+                color: 'white',
+                fontSize: '30px'
+            }
+        )
+        
+        this.text.setOrigin(0.5, 0.5)
 
 
         this.refresh();

@@ -38,8 +38,8 @@ export default class Task extends Phaser.GameObjects.Container
 
         this.add(this.text)
 
-        this.ding = this.scene.sound.add("ding", { loop: false })
-        this.error = this.scene.sound.add("error", { loop: false, volume: 0.05 })
+        this.ding = this.scene.sound.add("ding", { loop: false, volume: 3 })
+        this.error = this.scene.sound.add("error", { loop: false, volume: 0.2 })
 
         window.addEventListener('resize', this.onResize.bind(this), false);
 

@@ -1,13 +1,15 @@
-import Phaser from 'phaser'
+import Phaser, { Time } from 'phaser'
 
 export default class Task extends Phaser.GameObjects.Container
 {
+    private lastGuessTime = Date.now();
     private text: Phaser.GameObjects.Text
     private digitA = 0
     private digitB = 0
     private answer = 0
     private min: integer
     private max: integer
+    private operand = '-'
 
     private ding;
     private error;
@@ -20,8 +22,8 @@ export default class Task extends Phaser.GameObjects.Container
         this.max = 4;
 
         this.text = scene.add.text(
-            scene.game.canvas.width/2,
-            scene.game.canvas.height/2 - 120,
+            -10000,
+            -10000,
             this.challengeText(),
             {
                 color: 'white',
@@ -29,11 +31,12 @@ export default class Task extends Phaser.GameObjects.Container
                 fontFamily: 'Fantasy',
             }
         )
+        this.fixLayout();
         
         this.text.setOrigin(0.5, 0.5)
 
 
-        this.refresh();
+        this.refresh()
 
 
         this.add(this.text)
@@ -41,7 +44,7 @@ export default class Task extends Phaser.GameObjects.Container
         this.ding = this.scene.sound.add("ding", { loop: false, volume: 3 })
         this.error = this.scene.sound.add("error", { loop: false, volume: 0.2 })
 
-        window.addEventListener('resize', this.onResize.bind(this), false);
+        window.addEventListener('resize', this.fixLayout.bind(this), false);
 
         // document.addEventListener('keypress', (event) => {
         //     var name = event.key;
@@ -54,9 +57,17 @@ export default class Task extends Phaser.GameObjects.Container
 
     }
 
-    onResize() {
-        this.text.setX(this.scene.game.canvas.width/2)
-        this.text.setY(this.scene.game.canvas.height/2);
+    fixLayout() {
+        this.text.setX(this.calcX())
+        this.text.setY(this.calcY())
+    }
+
+    calcX() {
+        return this.scene.game.canvas.width/2
+    }
+    
+    calcY() {
+        return (this.scene.game.canvas.height - 100) / 2
     }
 
     onKeyPress(event) {
@@ -68,26 +79,48 @@ export default class Task extends Phaser.GameObjects.Container
 
     check(keyName: string) {
         let guess = parseInt(keyName);
-        if (guess == this.answer) {
+
+        if (isNaN(guess)) {
+            return;
+        }
+
+        let newGuessTime = Date.now();
+        if (newGuessTime - this.lastGuessTime <= 500) {
+            return;
+        } else {
+            console.log(newGuessTime - this.lastGuessTime);
+        }
+        this.lastGuessTime = newGuessTime;
+
+
+        let correct = guess == this.answer;
+
+        if (correct) {
             this.ding.play()
             this.refresh()
         } else {
             this.error.play()
-            console.log(guess)
-            console.log(this.answer)
         }
     }
 
     refresh() {
+        this.operand = Math.random() > 0.5 ? '+' : '-'
         this.digitA = this.randomDigit()
         this.digitB = this.randomDigit()
         this.answer = this.digitA + this.digitB;
+
+        if (this.operand == '-') {
+            this.digitB = Math.round(Math.random() * this.digitA)
+            this.answer = this.digitA - this.digitB;
+        }
+
+        
 
         this.text.setText(this.challengeText())
     }
 
     challengeText(): string {
-        return `${this.digitA} + ${this.digitB}`
+        return `${this.digitA} ${this.operand} ${this.digitB}`
     }
 
     randomDigit(): integer {

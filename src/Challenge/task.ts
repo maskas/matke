@@ -40,6 +40,7 @@ export default class Task extends Phaser.GameObjects.Container
         this.ding = this.scene.sound.add("ding", { loop: false })
         this.error = this.scene.sound.add("error", { loop: false, volume: 0.05 })
 
+        window.addEventListener('resize', this.onResize.bind(this), false);
 
         // document.addEventListener('keypress', (event) => {
         //     var name = event.key;
@@ -50,6 +51,11 @@ export default class Task extends Phaser.GameObjects.Container
 
           document.addEventListener('keypress', this.onKeyPress.bind(this), false);
 
+    }
+
+    onResize() {
+        this.text.setX(this.scene.game.canvas.width/2)
+        this.text.setY(this.scene.game.canvas.height/2);
     }
 
     onKeyPress(event) {

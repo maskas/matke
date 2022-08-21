@@ -4,6 +4,15 @@ import Task from '~/Object/Task'
 
 export default class ChallengeScene extends Phaser.Scene
 {
+    private task: Task | undefined;
+    private container: Phaser.GameObjects.Container | undefined
+
+    private completedEvent = 'completed'
+    private failedEvent = 'failed'
+
+    private ding;
+    private error;
+
 	constructor()
 	{
         let config = {
@@ -22,21 +31,40 @@ export default class ChallengeScene extends Phaser.Scene
 
     create()
     {
+        this.ding = this.sound.add("ding", { loop: false, volume: 3 })
+        this.error = this.sound.add("error", { loop: false, volume: 0.2 })
 
-        // this.add.image(400, 300, 'clove')
 
-
-        // var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" }
-
-        // //  The Text is positioned at 0, 100
-        // let text = this.add.text(0, 0, "phaser 2.4 text bounds", style);
-        // text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    
-        // //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-        // // text.setTextBounds(0, 100, 800, 100);
-
-        let task = new Task(this);
         let digitKeyboard = new DigitKeyboard(this);
-        this.add.container(0, 0, [task, digitKeyboard])
+
+        this.task = new Task(this);
+        this.task.on(this.completedEvent, this.onCompleted, this);
+        this.task.on(this.failedEvent, this.onFail, this);
+
+        this.container = this.add.container(0, 0, [this.task, digitKeyboard])
     }
+
+    onCompleted(event) {
+        this.ding.play();
+
+        if (!this.container) {
+            return;
+        }
+
+        event.task.off(this.completedEvent, this.onCompleted)
+        this.container.remove(event.task)
+        event.task.destroy();
+
+        this.task = new Task(this);
+        this.task.on(this.completedEvent, this.onCompleted, this);
+        this.task.on(this.failedEvent, this.onFail, this);
+ 
+        this.container.add(this.task);
+    }
+
+    onFail(event) {
+        this.error.play();
+    }
+
+    
 }

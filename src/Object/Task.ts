@@ -16,8 +16,6 @@ export default class Task extends Phaser.GameObjects.Container
     private keyUpEvent = 'keyup'
     private resizeEvent = 'resize'
 
-    private ding;
-    private error;
 
 	constructor(scene: Phaser.Scene, x?: number, y?: number, children?: Phaser.GameObjects.GameObject[])
 	{
@@ -40,9 +38,6 @@ export default class Task extends Phaser.GameObjects.Container
         this.text.setOrigin(0.5, 0.5)
         this.refresh()
         this.add(this.text)
-
-        this.ding = this.scene.sound.add("ding", { loop: false, volume: 3 })
-        this.error = this.scene.sound.add("error", { loop: false, volume: 0.2 })
     
         this.resizeListener = this.fixLayout.bind(this);
         this.scene.scale.on(this.resizeEvent, this.resizeListener, this);
@@ -79,7 +74,7 @@ export default class Task extends Phaser.GameObjects.Container
         }
 
         let newGuessTime = Date.now();
-        if (newGuessTime - this.lastGuessTime <= 500) {
+        if (newGuessTime - this.lastGuessTime <= 300) {
             // eliminate double clicks
             return;
         }
@@ -89,10 +84,9 @@ export default class Task extends Phaser.GameObjects.Container
         let correct = guess == this.answer;
 
         if (correct) {
-            this.ding.play()
-            this.refresh()
+            this.emit('completed', { task: this} )
         } else {
-            this.error.play()
+            this.emit('failed', { task: this} )
         }
     }
 
@@ -106,8 +100,6 @@ export default class Task extends Phaser.GameObjects.Container
             this.digitB = Math.round(Math.random() * this.digitA)
             this.answer = this.digitA - this.digitB;
         }
-
-        
 
         this.text.setText(this.challengeText())
     }

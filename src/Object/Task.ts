@@ -10,6 +10,11 @@ export default class Task extends Phaser.GameObjects.Container
     private min: integer
     private max: integer
     private operand = '-'
+    private keyUpListener
+    private resizeListener
+
+    private keyUpEvent = 'keyup'
+    private resizeEvent = 'resize'
 
     private ding;
     private error;
@@ -38,10 +43,12 @@ export default class Task extends Phaser.GameObjects.Container
 
         this.ding = this.scene.sound.add("ding", { loop: false, volume: 3 })
         this.error = this.scene.sound.add("error", { loop: false, volume: 0.2 })
+    
+        this.resizeListener = this.fixLayout.bind(this);
+        this.scene.scale.on(this.resizeEvent, this.resizeListener, this);
 
-        // window.addEventListener('resize', this.fixLayout.bind(this), false);
-        this.scene.scale.on('resize', this.fixLayout.bind(this), this);
-        document.addEventListener('keyup', this.onKeyPress.bind(this), false);
+        this.keyUpListener = this.onKeyPress.bind(this);
+        document.addEventListener(this.keyUpEvent, this.keyUpListener, false);
     }
 
     fixLayout() {
@@ -112,5 +119,11 @@ export default class Task extends Phaser.GameObjects.Container
     randomDigit(): integer {
         let diff = this.max - this.min
         return Math.round(Math.random() * diff) + this.min
+    }
+
+    destroy() {
+        document.removeEventListener(this.keyUpEvent, this.keyUpListener);
+        this.scene.scale.off(this.resizeEvent,this.resizeListener, this);
+        super.destroy();
     }
 }

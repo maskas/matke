@@ -16,21 +16,18 @@ const config: Phaser.Types.Core.GameConfig = {
 
 let game;
 
+
 window.addEventListener('resize', function (event) {
 	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
 	window.scrollTo(0, 0);
 	setTimeout(() => {
-		game.scale.resize(window.innerWidth, window.innerHeight);
+		fixLayout()
 	}, 500)
 }, false);
 
-// window.addEventListener('load', function (event) {
-// 	window.scrollTo(0, 0);
-// 	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
-// 	setTimeout(() => {
-// 		game.scale.resize(window.innerWidth, window.innerHeight);
-// 	}, 500)
-// }, false);
+function fixLayout() {
+	game.scale.resize(window.innerWidth, window.innerHeight);
+}
 
 game = new Phaser.Game(config);
 

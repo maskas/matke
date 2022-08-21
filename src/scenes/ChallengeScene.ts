@@ -1,17 +1,10 @@
 import Phaser from 'phaser'
+import Levels from '~/Levels';
 import DigitKeyboard from '~/Object/DigitKeyboard';
-import Task from '~/Object/Task'
 
 export default class ChallengeScene extends Phaser.Scene
 {
-    private task: Task | undefined;
-    private container: Phaser.GameObjects.Container | undefined
-
-    private completedEvent = 'completed'
-    private failedEvent = 'failed'
-
-    private ding;
-    private error;
+    private levels: Levels | undefined;
 
 	constructor()
 	{
@@ -31,40 +24,10 @@ export default class ChallengeScene extends Phaser.Scene
 
     create()
     {
-        this.ding = this.sound.add("ding", { loop: false, volume: 3 })
-        this.error = this.sound.add("error", { loop: false, volume: 0.2 })
-
-
         let digitKeyboard = new DigitKeyboard(this);
 
-        this.task = new Task(this);
-        this.task.on(this.completedEvent, this.onCompleted, this);
-        this.task.on(this.failedEvent, this.onFail, this);
+        this.add.container(0, 0, [digitKeyboard]);
 
-        this.container = this.add.container(0, 0, [this.task, digitKeyboard])
+        this.levels = new Levels(this);
     }
-
-    onCompleted(event) {
-        this.ding.play();
-
-        if (!this.container) {
-            return;
-        }
-
-        event.task.off(this.completedEvent, this.onCompleted)
-        this.container.remove(event.task)
-        event.task.destroy();
-
-        this.task = new Task(this);
-        this.task.on(this.completedEvent, this.onCompleted, this);
-        this.task.on(this.failedEvent, this.onFail, this);
- 
-        this.container.add(this.task);
-    }
-
-    onFail(event) {
-        this.error.play();
-    }
-
-    
 }

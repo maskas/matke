@@ -14,6 +14,11 @@ export default class Levels
 
     private scene: Phaser.Scene;
 
+    private struggle = 0;
+    private failedAttempts = 0;
+    private max = 5;
+    private taskStartTime = Date.now();
+
 	constructor(scene: Phaser.Scene)
 	{
         this.scene = scene;
@@ -26,15 +31,25 @@ export default class Levels
     }
 
     onCompleted(event) {
+        if (Date.now() - this.taskStartTime > 8000) {
+            this.registerStruggle();
+        } else {
+            this.reliefStruggle();
+        }
         this.ding.play();
+        this.refreshTask(event.task);
+    }
 
+    refreshTask(task) {
         if (!this.container) {
             return;
         }
 
-        event.task.off(this.completedEvent, this.onCompleted)
-        this.container.remove(event.task)
-        event.task.destroy();
+        task.off(this.completedEvent, this.onCompleted)
+        this.container.remove(task)
+        task.destroy();
+
+        this.failedAttempts = 0;
 
         this.addNewTask();
     }
@@ -43,8 +58,9 @@ export default class Levels
         if (!this.container) {
             return;
         }
+        this.taskStartTime = Date.now();
 
-        this.task = new Task(this.scene);
+        this.task = new Task(this.scene, 0, this.max);
         this.task.on(this.completedEvent, this.onCompleted, this);
         this.task.on(this.failedEvent, this.onFail, this);
  
@@ -52,7 +68,35 @@ export default class Levels
     }
 
     onFail(event) {
+        this.failedAttempts++;
+        this.registerStruggle();
+        if (this.failedAttempts > 3) {
+            this.refreshTask(event.task)
+        }
         this.error.play();
+    }
+
+    registerStruggle() {
+        this.struggle += 1;
+        this.calcMax();
+    }
+
+    reliefStruggle() {
+        this.struggle -= 0.5;
+        this.calcMax();
+    }
+
+    calcMax() {
+        console.log(`Strugle ${this.struggle}. Max = ${this.max}`);
+        if (this.struggle > 3) {
+            this.max = Math.max(this.max - 1, 3);
+            this.struggle = 0;
+        } else {
+            if (this.struggle <= -3) {
+                this.max = Math.min(this.max + 1, 9);
+                this.struggle = 0;
+            }
+        }
     }
 
 }

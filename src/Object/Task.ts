@@ -17,12 +17,12 @@ export default class Task extends Phaser.GameObjects.Container
     private resizeEvent = 'resize'
 
 
-	constructor(scene: Phaser.Scene, x?: number, y?: number, children?: Phaser.GameObjects.GameObject[])
+	constructor(scene: Phaser.Scene, min, max)
 	{
-		super(scene, x, y)
+		super(scene)
 
-        this.min = 0;
-        this.max = 4;
+        this.min = min;
+        this.max = max;
 
         this.text = scene.add.text(
             100,
@@ -92,13 +92,20 @@ export default class Task extends Phaser.GameObjects.Container
 
     refresh() {
         this.operand = Math.random() > 0.5 ? '+' : '-'
-        this.digitA = this.randomDigit()
-        this.digitB = this.randomDigit()
-        this.answer = this.digitA + this.digitB;
 
-        if (this.operand == '-') {
-            this.digitB = Math.round(Math.random() * this.digitA)
-            this.answer = this.digitA - this.digitB;
+
+        switch(this.operand) {
+            case '+':
+                this.answer = this.randomDigit()
+                this.digitA = this.randomDigit(0, this.answer)
+                this.digitB = this.answer - this.digitA;
+                this.answer = this.digitA + this.digitB;
+                break;
+            case '-':
+                this.digitA = this.randomDigit()
+                this.digitB = this.randomDigit(0, this.digitA)
+                this.answer = this.digitA - this.digitB
+                break;
         }
 
         this.text.setText(this.challengeText())
@@ -108,9 +115,9 @@ export default class Task extends Phaser.GameObjects.Container
         return `${this.digitA} ${this.operand} ${this.digitB}`
     }
 
-    randomDigit(): integer {
-        let diff = this.max - this.min
-        return Math.round(Math.random() * diff) + this.min
+    randomDigit(min = this.min, max = this.max): integer {
+        let diff = max - min
+        return Math.round(Math.random() * diff) + min
     }
 
     destroy() {

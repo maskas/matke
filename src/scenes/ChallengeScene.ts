@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
-import Levels from '~/Levels';
-import DigitKeyboard from '~/Object/DigitKeyboard';
+import Levels from '../Levels';
+import DigitKeyboard from '../Object/DigitKeyboard';
 
 export default class ChallengeScene extends Phaser.Scene
 {

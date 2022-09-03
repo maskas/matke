@@ -112,7 +112,7 @@ export default class Task extends Phaser.GameObjects.Container
     }
 
     challengeText(): string {
-        return `${this.digitA} ${this.operand} ${this.digitB}`
+        return `${this.digitA} ${this.operand} ${this.digitB} =`
     }
 
     randomDigit(min = this.min, max = this.max): integer {

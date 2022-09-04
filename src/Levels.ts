@@ -19,7 +19,6 @@ export default class Levels
     private failedAttempts = 0;
     private max = 5;
     private min = 0;
-    private taskStartTime = Date.now();
 
 	constructor(scene: Phaser.Scene, min: number, max: number)
 	{
@@ -66,7 +65,6 @@ export default class Levels
         if (!this.container) {
             return;
         }
-        this.taskStartTime = Date.now();
 
         this.task = new Task(this.scene, this.min, this.max);
         this.task.on(this.completedEvent, this.onCompleted, this);

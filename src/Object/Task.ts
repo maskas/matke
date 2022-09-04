@@ -1,6 +1,3 @@
-import Phaser, { Time } from 'phaser'
-
-
 
 export default class Task extends Phaser.GameObjects.Container
 {
@@ -80,6 +77,16 @@ export default class Task extends Phaser.GameObjects.Container
     check(keyName: string) {
         let guess = parseInt(keyName);
 
+        if (['Delete', 'Backspace'].includes(keyName)) {
+            let spacerIndex = this.chosenAnswer.indexOf(this.spacer);
+            if (spacerIndex == 0) {
+                return;
+            }
+            let chars = this.chosenAnswer.split('');
+            chars[spacerIndex-1] = this.spacer;
+            this.setChosenAnswer(chars.join(''));
+        }
+
         if (isNaN(guess)) {
             return;
         }
@@ -110,7 +117,6 @@ export default class Task extends Phaser.GameObjects.Container
     refresh() {
         this.operand = Math.random() > 0.5 ? '+' : '-'
 
-
         switch(this.operand) {
             case '+':
                 this.answer = this.randomDigit(this.min, this.max)
@@ -120,7 +126,7 @@ export default class Task extends Phaser.GameObjects.Container
                 break;
             case '-':   
                 this.digitA = this.randomDigit(this.min, this.max)
-                this.digitB = this.randomDigit(2, this.digitA - 2)
+                this.digitB = this.randomDigit(0, this.digitA)
                 this.answer = this.digitA - this.digitB
                 break;
         }

@@ -4,7 +4,6 @@ import DigitKeyboard from '../Object/DigitKeyboard';
 
 export default class ChallengeScene extends Phaser.Scene
 {
-    private levels: Levels | undefined;
 
 	constructor()
 	{
@@ -27,7 +26,5 @@ export default class ChallengeScene extends Phaser.Scene
         let digitKeyboard = new DigitKeyboard(this);
 
         this.add.container(0, 0, [digitKeyboard]);
-
-        this.levels = new Levels(this);
     }
 }

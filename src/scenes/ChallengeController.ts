@@ -64,7 +64,7 @@ export default class ChallengeController extends Phaser.Scene
                 return 9;
                 break;
             default:
-                return parseInt(this.level) * 3;
+                return parseInt(this.level) * 4;
         }
     }
 }

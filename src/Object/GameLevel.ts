@@ -29,12 +29,14 @@ export default class GameLevel extends Phaser.GameObjects.Container
         this.textSymbol.setOrigin(0.5, 0.5)
         this.button.setInteractive({ cursor: 'pointer' })
         this.button.on('pointerover', (event) => {
+            this.button.tint = Math.random() * 0xffffff;
             this.button.setRotation(0.05);
             this.textSymbol.setRotation(0.05);
             this.textSymbol.setColor('#fff')
             // textSymbol.setStroke('#006', 2);
         });
         this.button.on('pointerout', (event) => {
+            this.button.tint = 0xffffff;
             this.button.setRotation(0);
             this.textSymbol.setRotation(0);
             this.textSymbol.setColor('#fff');

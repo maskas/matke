@@ -19,7 +19,7 @@ export default class ChallengeScene extends Phaser.Scene
     {
         this.load.audio("ding", ["ding.wav"]);
         this.load.audio("error", ["error.wav"]);
-        // this.load.image('clove', 'clove.png')
+
     }
 
     create()

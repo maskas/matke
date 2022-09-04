@@ -1,5 +1,9 @@
 import Phaser from 'phaser'
 import Challenge from './scenes/ChallengeScene'
+import LevelSelect from './scenes/LevelSelect'
+import SelectLevel from './scenes/SelectLevel';
+import EventDispatcher from './System/EventDispatcher';
+
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
@@ -11,17 +15,18 @@ const config: Phaser.Types.Core.GameConfig = {
 			gravity: { y: 200 }
 		}
 	},
-	scene: [Challenge]
+	scene: []
+	// scene: [Challenge]
 }
 
-let game;
+let game: Phaser.Game;
 
 
 window.addEventListener('resize', function (event) {
 	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
 	window.scrollTo(0, 0);
 	setTimeout(() => {
-		fixLayout()
+		fixLayout()		
 	}, 500)
 }, false);
 
@@ -30,6 +35,19 @@ function fixLayout() {
 }
 
 game = new Phaser.Game(config);
+
+// let levelSelect = new LevelSelect(game);
+
+// game.scene.add('Boot', levelSelect, true);
+game.scene.add('level_select', LevelSelect, true);
+
+EventDispatcher.getInstance().on('level_selected', (event) => {
+	game.scene.remove('level_select');
+	game.scene.add('challenge', SelectLevel, true);
+
+
+	console.log(event.level);
+})
 
 
 export default game

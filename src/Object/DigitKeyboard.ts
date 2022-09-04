@@ -62,13 +62,15 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
 
     recalculate() {
         const maxWidth = 800;
-        const desiredWidth = Math.min(this.scene.game.canvas.width - 40, maxWidth)
+        const desiredWidth = Math.min(this.scene.game.canvas.width - 30, maxWidth)
         const buttonCount = this.buttons.length;
         let spacing = desiredWidth / buttonCount;
 
         for(let i=0; i<buttonCount; i++) {
             this.buttons[i].setX(this.scene.game.canvas.width/2 + spacing * (i - 4.5));
-            this.buttons[i].setY(this.scene.game.canvas.height - this.fontSize - 100);
+            let y = this.scene.game.canvas.height - this.fontSize - this.scene.game.canvas.height / 6;
+            
+            this.buttons[i].setY(y);
         }
     }
 

@@ -9,11 +9,16 @@ const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	width: window.innerWidth,
 	height: window.innerHeight,
+	backgroundColor: '#000',
 	physics: {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 200 }
-		}
+		},
+	},
+	scale: {
+		mode: Phaser.Scale.RESIZE,
+		autoCenter: Phaser.Scale.CENTER_BOTH,
 	},
 	scene: [LevelSelect, ChallengeController]
 	// scene: [LevelSelect]
@@ -23,17 +28,17 @@ const config: Phaser.Types.Core.GameConfig = {
 let game: Phaser.Game;
 
 
-window.addEventListener('resize', function (event) {
-	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
-	window.scrollTo(0, 0);
-	setTimeout(() => {
-		fixLayout()		
-	}, 500)
-}, false);
+// window.addEventListener('resize', function (event) {
+// 	game.scale.resize(window.innerWidth / 10, window.innerHeight / 10);
+// 	window.scrollTo(0, 0);
+// 	setTimeout(() => {
+// 		fixLayout()		
+// 	}, 500)
+// }, false);
 
-function fixLayout() {
-	game.scale.resize(window.innerWidth, window.innerHeight);
-}
+// function fixLayout() {
+// 	game.scale.resize(window.innerWidth, window.innerHeight);
+// }
 
 game = new Phaser.Game(config);
 

@@ -12,6 +12,10 @@ export default class LevelSelect extends Phaser.Scene
         let config = {
             key: 'level_select',
             active: true,
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+            },
         }
         super(config)
         
@@ -62,12 +66,11 @@ export default class LevelSelect extends Phaser.Scene
     }
 
     resize() {
-        console.log(`resize innerWidth: ${window.innerWidth}, ${this.levels.length}`);
-        let itemWidth = 150;
+        let itemWidth = Math.min((this.sys.game.canvas.width - 50) / this.levels.length, 150);
         for (let i=0; i<this.levels.length; i++) {
-            this.levels[i].setX(window.innerWidth / 2 + ((i - (this.levels.length - 1) / 2) * itemWidth));
-            this.levels[i].setY(window.innerHeight / 2);
+            this.levels[i].setX(this.sys.game.canvas.width / 2 + ((i - (this.levels.length - 1) / 2) * itemWidth));
+            this.levels[i].setY(this.sys.game.canvas.height / 2);
+            this.levels[i].setScale(0.5);
         }
-        
     }
 }

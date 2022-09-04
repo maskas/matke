@@ -2,15 +2,14 @@ import Phaser from 'phaser'
 import Levels from '../Levels';
 import DigitKeyboard from '../Object/DigitKeyboard';
 
-export default class SelectLevel extends Phaser.Scene
+export default class ChallengeController extends Phaser.Scene
 {
     private levels: Levels | undefined;
 
     constructor()
     {
         let config = {
-            key: 'challenge',
-            active: true,
+            
         }
         super(config)
     }

@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Task from './Object/Task';
+import EventDispatcher from './System/EventDispatcher';
 
 export default class Levels
 {
@@ -37,7 +38,10 @@ export default class Levels
             this.reliefStruggle();
         }
         this.ding.play();
-        this.refreshTask(event.task);
+
+        EventDispatcher.getInstance().emit('level_completed');
+
+        // this.refreshTask(event.task);
     }
 
     refreshTask(task) {

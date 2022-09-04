@@ -4,7 +4,6 @@ import Phaser, { Time } from 'phaser'
 
 export default class Task extends Phaser.GameObjects.Container
 {
-    private lastGuessTime = Date.now();
     private text: Phaser.GameObjects.Text
     private digitA = 0
     private digitB = 0
@@ -21,6 +20,7 @@ export default class Task extends Phaser.GameObjects.Container
     private resizeEvent = 'resize'
 
     private chosenAnswer = '';
+    private ignoreInput = false;
 
 
 	constructor(scene: Phaser.Scene, min, max)
@@ -67,6 +67,9 @@ export default class Task extends Phaser.GameObjects.Container
     }
 
     onKeyPress(event) {
+        if (this.ignoreInput) {
+            return;
+        }
         let name = event.key;
         let code = event.code;
 
@@ -81,26 +84,27 @@ export default class Task extends Phaser.GameObjects.Container
             return;
         }
 
-        let newGuessTime = Date.now();
-        if (newGuessTime - this.lastGuessTime <= this.checkPause) {
-            // eliminate double clicks
+        this.setChosenAnswer(this.chosenAnswer.replace(this.spacer, keyName))
+        if (this.chosenAnswer.indexOf(this.spacer) !== -1) {
             return;
         }
-        this.lastGuessTime = newGuessTime;
+
+        this.ignoreInput = true;
 
         this.chosenAnswer = keyName;
-        this.text.setText(this.challengeText());
 
         let correct = guess == this.answer;
 
         if (correct) {
             setTimeout(() => {
                 this.emit('completed', { task: this} )
+                this.ignoreInput = false;
             }, this.checkPause)
         } else {
             setTimeout(() => {
                 this.resetChosenAnswer(); 
                 this.emit('failed', { task: this} )
+                this.ignoreInput = false;
             }, this.checkPause)
         }
     }
@@ -130,6 +134,11 @@ export default class Task extends Phaser.GameObjects.Container
 
     resetChosenAnswer() {
         this.chosenAnswer = this.fracRepeat(this.spacer, this.numDigits(this.answer))
+        this.text.setText(this.challengeText());
+    }
+
+    setChosenAnswer(newAnswer: string) {
+        this.chosenAnswer = newAnswer;
         this.text.setText(this.challengeText());
     }
 

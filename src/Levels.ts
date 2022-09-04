@@ -79,7 +79,7 @@ export default class Levels
         this.failedAttempts++;
         this.registerStruggle();
         if (this.failedAttempts > 3) {
-            this.refreshTask(event.task)
+            // this.refreshTask(event.task)
         }
         this.error.play();
     }

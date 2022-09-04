@@ -1,5 +1,7 @@
 import Phaser, { Time } from 'phaser'
 
+
+
 export default class Task extends Phaser.GameObjects.Container
 {
     private lastGuessTime = Date.now();
@@ -12,9 +14,13 @@ export default class Task extends Phaser.GameObjects.Container
     private operand = '-'
     private keyUpListener
     private resizeListener
+    private spacer = '?';
+    private checkPause = 200;
 
     private keyUpEvent = 'keyup'
     private resizeEvent = 'resize'
+
+    private chosenAnswer = '';
 
 
 	constructor(scene: Phaser.Scene, min, max)
@@ -64,6 +70,7 @@ export default class Task extends Phaser.GameObjects.Container
         let name = event.key;
         let code = event.code;
 
+
         this.check(name);
     }
 
@@ -75,19 +82,26 @@ export default class Task extends Phaser.GameObjects.Container
         }
 
         let newGuessTime = Date.now();
-        if (newGuessTime - this.lastGuessTime <= 300) {
+        if (newGuessTime - this.lastGuessTime <= this.checkPause) {
             // eliminate double clicks
             return;
         }
         this.lastGuessTime = newGuessTime;
 
+        this.chosenAnswer = keyName;
+        this.text.setText(this.challengeText());
 
         let correct = guess == this.answer;
 
         if (correct) {
-            this.emit('completed', { task: this} )
+            setTimeout(() => {
+                this.emit('completed', { task: this} )
+            }, this.checkPause)
         } else {
-            this.emit('failed', { task: this} )
+            setTimeout(() => {
+                this.resetChosenAnswer(); 
+                this.emit('failed', { task: this} )
+            }, this.checkPause)
         }
     }
 
@@ -109,11 +123,18 @@ export default class Task extends Phaser.GameObjects.Container
                 break;
         }
 
+        this.resetChosenAnswer();
+
         this.text.setText(this.challengeText())
     }
 
+    resetChosenAnswer() {
+        this.chosenAnswer = this.fracRepeat(this.spacer, this.numDigits(this.answer))
+        this.text.setText(this.challengeText());
+    }
+
     challengeText(): string {
-        return `${this.digitA} ${this.operand} ${this.digitB} =`
+        return `${this.digitA} ${this.operand} ${this.digitB} = ${this.chosenAnswer}`
     }
 
     randomDigit(min, max): integer {
@@ -127,4 +148,14 @@ export default class Task extends Phaser.GameObjects.Container
         this.scene.scale.off(this.resizeEvent,this.resizeListener, this);
         super.destroy();
     }
+
+    fracRepeat(value: String, multiplier){
+        if (multiplier < 0) multiplier = 0;
+        return value.repeat(multiplier) + value.slice(0, ~~((multiplier - ~~multiplier) * value.length));
+     }
+
+     numDigits(x) {
+        return (Math.log10((x ^ (x >> 31)) - (x >> 31)) | 0) + 1;
+      }
+     
 }

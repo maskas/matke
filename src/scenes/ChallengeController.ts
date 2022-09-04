@@ -42,10 +42,10 @@ export default class ChallengeController extends Phaser.Scene
                 return 0;
                 break;
             case '2':
-                return 5;
+                return 3;
                 break;
             case '3':
-                return 10;
+                return 5;
                 break;
             default:
                 return 0;
@@ -55,13 +55,13 @@ export default class ChallengeController extends Phaser.Scene
     max() {
         switch(this.level) {
             case '1':
-                return 5;
+                return 4;
                 break;
             case '2':
-                return 9;
+                return 7;
                 break;
             case '3':
-                return 19;
+                return 9;
                 break;
             default:
                 return 0;

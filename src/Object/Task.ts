@@ -24,6 +24,7 @@ export default class Task extends Phaser.GameObjects.Container
         this.min = min;
         this.max = max;
 
+        console.log(`Min: ${this.min}, Max: ${this.max}`)
         this.text = scene.add.text(
             100,
             100,
@@ -101,9 +102,9 @@ export default class Task extends Phaser.GameObjects.Container
                 this.digitB = this.answer - this.digitA;
                 this.answer = this.digitA + this.digitB;
                 break;
-            case '-':
+            case '-':   
                 this.digitA = this.randomDigit(this.min, this.max)
-                this.digitB = this.randomDigit(0, this.digitA)
+                this.digitB = this.randomDigit(2, this.digitA - 2)
                 this.answer = this.digitA - this.digitB
                 break;
         }

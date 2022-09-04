@@ -43,9 +43,9 @@ export default class Levels
         }
         this.ding.play();
 
-        EventDispatcher.getInstance().emit('level_completed');
+        // EventDispatcher.getInstance().emit('level_completed');
 
-        // this.refreshTask(event.task);
+        this.refreshTask(event.task);
     }
 
     refreshTask(task) {
@@ -95,16 +95,16 @@ export default class Levels
     }
 
     calcMax() {
-        console.log(`Strugle ${this.struggle}. Max = ${this.max}`);
-        if (this.struggle > 3) {
-            this.max = Math.max(this.max - 1, 3);
-            this.struggle = 0;
-        } else {
-            if (this.struggle <= -3) {
-                this.max = Math.min(this.max + 1, 9);
-                this.struggle = 0;
-            }
-        }
+        // console.log(`Strugle ${this.struggle}. Max = ${this.max}`);
+        // if (this.struggle > 3) {
+        //     this.max = Math.max(this.max - 1, 3);
+        //     this.struggle = 0;
+        // } else {
+        //     if (this.struggle <= -3) {
+        //         this.max = Math.min(this.max + 1, 9);
+        //         this.struggle = 0;
+        //     }
+        // }
     }
 
 }

@@ -18,11 +18,12 @@ export default class Levels
     private struggle = 0;
     private failedAttempts = 0;
     private max = 5;
+    private min = 0;
     private taskStartTime = Date.now();
 
 	constructor(scene: Phaser.Scene, min: number, max: number)
 	{
-        console.log(max);
+        this.min = min;
         this.max = max;
 
         this.scene = scene;
@@ -67,7 +68,7 @@ export default class Levels
         }
         this.taskStartTime = Date.now();
 
-        this.task = new Task(this.scene, 0, this.max);
+        this.task = new Task(this.scene, this.min, this.max);
         this.task.on(this.completedEvent, this.onCompleted, this);
         this.task.on(this.failedEvent, this.onFail, this);
  

@@ -96,13 +96,13 @@ export default class Task extends Phaser.GameObjects.Container
 
         switch(this.operand) {
             case '+':
-                this.answer = this.randomDigit()
+                this.answer = this.randomDigit(this.min, this.max)
                 this.digitA = this.randomDigit(0, this.answer)
                 this.digitB = this.answer - this.digitA;
                 this.answer = this.digitA + this.digitB;
                 break;
             case '-':
-                this.digitA = this.randomDigit()
+                this.digitA = this.randomDigit(this.min, this.max)
                 this.digitB = this.randomDigit(0, this.digitA)
                 this.answer = this.digitA - this.digitB
                 break;
@@ -115,7 +115,8 @@ export default class Task extends Phaser.GameObjects.Container
         return `${this.digitA} ${this.operand} ${this.digitB} =`
     }
 
-    randomDigit(min = this.min, max = this.max): integer {
+    randomDigit(min, max): integer {
+        console.log("min " + min);
         let diff = max - min
         return Math.round(Math.random() * diff) + min
     }

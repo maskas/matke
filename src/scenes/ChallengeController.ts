@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Close from '../Object/Close';
 import Levels from '../Levels';
 import DigitKeyboard from '../Object/DigitKeyboard';
 
@@ -18,14 +19,19 @@ export default class ChallengeController extends Phaser.Scene
     {
         this.load.audio("ding", ["ding.wav"]);
         this.load.audio("error", ["error.wav"]);
-        // this.load.image('clove', 'clove.png')
+        // this.load.image('close', 'close.png')
     }
 
     create()
     {
         let digitKeyboard = new DigitKeyboard(this);
 
-        this.add.container(0, 0, [digitKeyboard]);
+        this.add.existing(digitKeyboard);
+
+        let close = new Close(this);
+        this.add.existing(close);
+        // let image = this.add.image(30, 30, 'close');
+        // image.scale = 0.08;
 
         this.levels = new Levels(this);
     }

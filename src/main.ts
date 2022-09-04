@@ -46,8 +46,16 @@ EventDispatcher.getInstance().on('level_selected', (event) => {
 })
 
 EventDispatcher.getInstance().on('level_completed', (event) => {
+	displayLevels();
+})
+
+EventDispatcher.getInstance().on('level_closed', (event) => {
+	displayLevels();
+})
+
+function displayLevels() {
 	game.scene.remove('challenge_controller');
 	game.scene.add('level_select', LevelSelect, true);
-})
+}
 
 export default game

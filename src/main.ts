@@ -15,7 +15,8 @@ const config: Phaser.Types.Core.GameConfig = {
 			gravity: { y: 200 }
 		}
 	},
-	// scene: [LevelSelect, ChallengeController]
+	scene: [LevelSelect, ChallengeController]
+	// scene: [LevelSelect]
 	// scene: [Challenge]
 }
 
@@ -35,25 +36,5 @@ function fixLayout() {
 }
 
 game = new Phaser.Game(config);
-
-game.scene.add('level_select', LevelSelect, true);
-
-EventDispatcher.getInstance().on('level_selected', (event) => {
-	game.scene.remove('level_select');
-	game.scene.add('challenge_controller', ChallengeController, true, {level: event.level});
-})
-
-EventDispatcher.getInstance().on('level_completed', (event) => {
-	displayLevels();
-})
-
-EventDispatcher.getInstance().on('level_closed', (event) => {
-	displayLevels();
-})
-
-function displayLevels() {
-	game.scene.remove('challenge_controller');
-	game.scene.add('level_select', LevelSelect, true);
-}
 
 export default game

@@ -4,6 +4,7 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
 {
     private fontSize = 30;
     private buttons:Array<Phaser.GameObjects.Text> = [];
+    private resizeHandlerWithContext = this.resizeHandler.bind(this);
 
 	constructor(scene: Phaser.Scene, x?: number, y?: number, children?: Phaser.GameObjects.GameObject[])
 	{
@@ -50,8 +51,12 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
         }
         this.recalculate();
 
-        // window.addEventListener('resize', this.recalculate.bind(this), false);
-        this.scene.scale.on('resize', this.recalculate.bind(this), this);
+        this.scene.scale.on('resize', this.resizeHandlerWithContext, this);
+    }
+
+    resizeHandler() {
+        console.log('keyboard resize');
+        this.recalculate();
     }
 
 
@@ -65,5 +70,9 @@ export default class DigitKeyboard extends Phaser.GameObjects.Container
             this.buttons[i].setX(this.scene.game.canvas.width/2 + spacing * (i - 4.5));
             this.buttons[i].setY(this.scene.game.canvas.height - this.fontSize - 100);
         }
+    }
+
+    destroy() {
+        this.scene.scale.off('resize', this.resizeHandlerWithContext, this);
     }
 }

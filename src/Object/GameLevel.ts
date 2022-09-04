@@ -3,7 +3,6 @@ import EventDispatcher from '../System/EventDispatcher';
 
 export default class GameLevel extends Phaser.GameObjects.Container
 {
-    private fontSize = 30;
     private button;
     private textSymbol;
 
@@ -36,7 +35,7 @@ export default class GameLevel extends Phaser.GameObjects.Container
             // textSymbol.setStroke('#006', 2);
         });
         this.button.on('pointerout', (event) => {
-            this.button.tint = 0xffffff;
+            this.button.clearTint();
             this.button.setRotation(0);
             this.textSymbol.setRotation(0);
             this.textSymbol.setColor('#fff');
@@ -45,12 +44,9 @@ export default class GameLevel extends Phaser.GameObjects.Container
 
         this.button.on('pointerup', (event) => {
             EventDispatcher.getInstance().emit("level_selected", { level: level } )
-            //test
         })
 
         this.add(this.textSymbol)
-
-        
     }
 
     setX(value?: number): this{

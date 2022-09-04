@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import Close from '../Object/Close';
 import Levels from '../Levels';
 import DigitKeyboard from '../Object/DigitKeyboard';
+import LevelSelect from './LevelSelect';
+import EventDispatcher from '../System/EventDispatcher';
 
 export default class ChallengeController extends Phaser.Scene
 {
@@ -10,7 +12,21 @@ export default class ChallengeController extends Phaser.Scene
 
     constructor(config: string | Phaser.Types.Scenes.SettingsConfig)
     {
+        config = {
+            key: 'challenge_controller',
+            active: false,
+        }
         super(config);
+
+        EventDispatcher.getInstance().on('level_completed', (event) => {
+            console.log('Level Completed')
+            this.scene.start('level_select')
+        })
+        
+        EventDispatcher.getInstance().on('level_closed', (event) => {
+            console.log('Level closed');
+            this.scene.start('level_select')
+        })
     }
 
     init(data)
@@ -34,6 +50,7 @@ export default class ChallengeController extends Phaser.Scene
         this.add.existing(close);
 
         this.levels = new Levels(this, this.min(), this.max());
+
     }
 
     min() {
@@ -48,7 +65,7 @@ export default class ChallengeController extends Phaser.Scene
                 return 5;
                 break;
             default:
-                return parseInt(this.level) * 4;
+                return parseInt(this.level) * 2;
         }
     }
 

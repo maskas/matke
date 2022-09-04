@@ -5,6 +5,7 @@ import GameLevel from '../Object/GameLevel';
 export default class LevelSelect extends Phaser.Scene
 {
     private levels: Array<GameLevel> = [];
+    private enterSound;
 
     constructor()
     {
@@ -13,7 +14,7 @@ export default class LevelSelect extends Phaser.Scene
             active: true,
         }
         super(config)
-
+        
 
     }
 
@@ -32,6 +33,8 @@ export default class LevelSelect extends Phaser.Scene
 
     preload()
     {
+        this.load.audio("enter", ["enter.mp3"]);
+        this.load.audio("click", ["click.mp3"]);
         this.load.spritesheet('levelselecticons', 'levelselecticons.png', { frameWidth: 96, frameHeight: 96, endFrame: 6});
 
 
@@ -52,20 +55,9 @@ export default class LevelSelect extends Phaser.Scene
 
     }
 
-    start() {
-        console.log('start');
-    }
-
-    // stop(key: string) {
-    //     console.log('stop');
-    // }
-
-    // shutdown(data?: object): void {
-
-    // }
-
     onLevelSelected(event) {
         console.log(`On level selected ${event.level}`);
+        this.sound.play('enter');
         this.scene.start('challenge_controller', {level: event.level});
     }
 

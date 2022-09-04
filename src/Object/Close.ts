@@ -15,8 +15,8 @@ export default class Close extends Phaser.GameObjects.Container
     
 
         this.textSymbol = scene.add.text(
-            20,
-            20,
+            30,
+            30,
             'x',
             {
                 color: '#fff',

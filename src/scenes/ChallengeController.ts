@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 import Close from '../Object/Close';
 import Levels from '../Levels';
 import DigitKeyboard from '../Object/DigitKeyboard';
-import LevelSelect from './LevelSelect';
 import EventDispatcher from '../System/EventDispatcher';
 
 export default class ChallengeController extends Phaser.Scene

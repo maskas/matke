@@ -28,6 +28,8 @@ export default class GameLevel extends Phaser.GameObjects.Container
         this.textSymbol.setOrigin(0.5, 0.5)
         this.button.setInteractive({ cursor: 'pointer' })
         this.button.on('pointerover', (event) => {
+            this.scene.sound.play('click', {volume: 0.3});
+
             this.button.tint = Math.random() * 0xffffff;
             this.button.setRotation(0.05);
             this.textSymbol.setRotation(0.05);

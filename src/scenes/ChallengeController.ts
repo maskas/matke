@@ -6,20 +6,22 @@ import DigitKeyboard from '../Object/DigitKeyboard';
 export default class ChallengeController extends Phaser.Scene
 {
     private levels: Levels | undefined;
+    private level;
 
-    constructor()
+    constructor(config: string | Phaser.Types.Scenes.SettingsConfig)
     {
-        let config = {
-            
-        }
-        super(config)
+        super(config);
+    }
+
+    init(data)
+    {
+        this.level = data.level;
     }
 
     preload()
     {
         this.load.audio("ding", ["ding.wav"]);
         this.load.audio("error", ["error.wav"]);
-        // this.load.image('close', 'close.png')
     }
 
     create()
@@ -30,9 +32,39 @@ export default class ChallengeController extends Phaser.Scene
 
         let close = new Close(this);
         this.add.existing(close);
-        // let image = this.add.image(30, 30, 'close');
-        // image.scale = 0.08;
 
-        this.levels = new Levels(this);
+        this.levels = new Levels(this, this.min(), this.max());
+    }
+
+    min() {
+        switch(this.level) {
+            case '1':
+                return 0;
+                break;
+            case '2':
+                return 5;
+                break;
+            case '3':
+                return 10;
+                break;
+            default:
+                return 0;
+        }
+    }
+
+    max() {
+        switch(this.level) {
+            case '1':
+                return 5;
+                break;
+            case '2':
+                return 9;
+                break;
+            case '3':
+                return 19;
+                break;
+            default:
+                return 0;
+        }
     }
 }

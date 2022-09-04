@@ -40,9 +40,7 @@ game.scene.add('level_select', LevelSelect, true);
 
 EventDispatcher.getInstance().on('level_selected', (event) => {
 	game.scene.remove('level_select');
-	game.scene.add('challenge_controller', ChallengeController, true);
-
-	console.log(event.level);
+	game.scene.add('challenge_controller', ChallengeController, true, {level: event.level});
 })
 
 EventDispatcher.getInstance().on('level_completed', (event) => {

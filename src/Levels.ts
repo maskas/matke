@@ -20,8 +20,11 @@ export default class Levels
     private max = 5;
     private taskStartTime = Date.now();
 
-	constructor(scene: Phaser.Scene)
+	constructor(scene: Phaser.Scene, min: number, max: number)
 	{
+        console.log(max);
+        this.max = max;
+
         this.scene = scene;
         this.ding = scene.sound.add("ding", { loop: false, volume: 3 })
         this.error = scene.sound.add("error", { loop: false, volume: 0.2 })

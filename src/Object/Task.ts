@@ -51,6 +51,10 @@ export default class Task extends Phaser.GameObjects.Container
     }
 
     fixLayout() {
+        let maxSpace = this.scene.sys.game.canvas.width - 30;
+        if (this.text.width > maxSpace) {
+            this.text.scale = Math.min(maxSpace/this.text.width, 1);
+        }
         this.text.setX(this.calcX())
         this.text.setY(this.calcY())
     }
@@ -165,10 +169,10 @@ export default class Task extends Phaser.GameObjects.Container
     fracRepeat(value: String, multiplier){
         if (multiplier < 0) multiplier = 0;
         return value.repeat(multiplier) + value.slice(0, ~~((multiplier - ~~multiplier) * value.length));
-     }
+    }
 
-     numDigits(x) {
+    numDigits(x) {
         return (Math.log10((x ^ (x >> 31)) - (x >> 31)) | 0) + 1;
-      }
+    }
      
 }

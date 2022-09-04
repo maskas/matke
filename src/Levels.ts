@@ -15,7 +15,6 @@ export default class Levels
 
     private scene: Phaser.Scene;
 
-    private struggle = 0;
     private failedAttempts = 0;
     private max = 5;
     private min = 0;
@@ -35,11 +34,6 @@ export default class Levels
     }
 
     onCompleted(event) {
-        if (Date.now() - this.taskStartTime > 8000) {
-            this.registerStruggle();
-        } else {
-            this.reliefStruggle();
-        }
         this.ding.play();
 
         // EventDispatcher.getInstance().emit('level_completed');
@@ -75,21 +69,10 @@ export default class Levels
 
     onFail(event) {
         this.failedAttempts++;
-        this.registerStruggle();
         if (this.failedAttempts > 3) {
             // this.refreshTask(event.task)
         }
         this.error.play();
-    }
-
-    registerStruggle() {
-        this.struggle += 1;
-        this.calcMax();
-    }
-
-    reliefStruggle() {
-        this.struggle -= 0.5;
-        this.calcMax();
     }
 
     calcMax() {

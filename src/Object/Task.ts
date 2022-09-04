@@ -91,9 +91,7 @@ export default class Task extends Phaser.GameObjects.Container
 
         this.ignoreInput = true;
 
-        this.chosenAnswer = keyName;
-
-        let correct = guess == this.answer;
+        let correct = this.chosenAnswer.localeCompare(this.answer.toString()) == 0;
 
         if (correct) {
             setTimeout(() => {

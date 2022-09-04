@@ -21,7 +21,7 @@ export default class LevelSelect extends Phaser.Scene
 
     create()
     {
-        for (let i=0; i<3; i++) {
+        for (let i=0; i<6; i++) {
             let gameLevel = new GameLevel(this, 200 + (i+1) * 100, 300, (i+1).toString());
             this.add.existing(gameLevel);
             this.levels.push(gameLevel);

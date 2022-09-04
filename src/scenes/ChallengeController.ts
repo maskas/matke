@@ -48,7 +48,7 @@ export default class ChallengeController extends Phaser.Scene
                 return 5;
                 break;
             default:
-                return 0;
+                return parseInt(this.level) * 4;
         }
     }
 
@@ -64,7 +64,7 @@ export default class ChallengeController extends Phaser.Scene
                 return 9;
                 break;
             default:
-                return 0;
+                return parseInt(this.level) * 3;
         }
     }
 }
